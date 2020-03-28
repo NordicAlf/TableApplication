@@ -1,0 +1,16 @@
+.auth {
+    width: 400px;
+    height: auto;
+    margin: 50px auto;
+}
+.welcome {
+    width: 800px;
+    height: auto;
+    margin: 60px auto;
+}
+.form-control {
+    margin: 10px 0px;
+}
+.btn-block {
+    margin-top: 30px;
+}
