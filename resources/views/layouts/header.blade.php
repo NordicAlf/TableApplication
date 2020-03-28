@@ -7,7 +7,7 @@
     <div class="collapse navbar-collapse">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="/">Мой сайт</a>
+                <a class="nav-link" href="/">Главная</a>
             </li>
         </ul>
         <ul class="navbar-nav ml-auto">
