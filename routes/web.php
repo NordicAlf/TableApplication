@@ -12,13 +12,8 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Auth::routes();
 
 Route::get('/', function () {
     return view('main');
-});
-Route::get('/sign-in', function () {
-    return view('sign-in');
-});
-Route::get('/registration', function () {
-    return view('registration');
 });

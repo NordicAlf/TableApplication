@@ -10,13 +10,35 @@
                 <a class="nav-link" href="/">Главная</a>
             </li>
         </ul>
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="/sign-in">Вход</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/registration">Регистрация</a>
-            </li>
-        </ul>
+        @guest
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('login') }}">Вход</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('register') }}">Регистрация</a>
+                </li>
+            </ul>
+        @else
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="">
+                        Ваш профиль:  {{ Auth::user()->name }}
+                    </a>
+
+                <li class="nav-item">
+                        <a class="nav-link" href="{{ route('logout') }}"
+                           onclick="event.preventDefault();
+                         document.getElementById('logout-form').submit();">
+                            Выход
+                        </a>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    </li>
+                </li>
+            </ul>
+        @endguest
     </div>
 </nav>

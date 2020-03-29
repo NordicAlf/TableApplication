@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class ManagerUserSeeder extends Seeder
 {
@@ -17,7 +18,7 @@ class ManagerUserSeeder extends Seeder
             [
                 'name' => 'manager',
                 'email'=> 'manager@manager.com',
-                'password' => 'manager',
+                'password' => Hash::make('adminmanager'),
                 'role' => 1,
                 'remember_token' => Str::random(10),
             ]
