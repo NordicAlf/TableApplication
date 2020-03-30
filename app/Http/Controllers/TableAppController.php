@@ -6,14 +6,26 @@ use App\Http\Requests\TableRequestCreateRequest;
 use Illuminate\Http\Request;
 use App\Models\Request as TableRequest;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
+use App\Repositories\TableRequestsRepository;
+use App\Repositories\UserRepository;
 
 class TableAppController extends Controller
 {
+    private $tableRequestsRepository;
+    private $userRepository;
+
+   public function __construct()
+    {
+        $this->tableRequestsRepository = app(TableRequestsRepository::class);
+        $this->userRepository = app(UserRepository::class);
+    }
+
     public function index()
     {
         if (Auth::check()) {
-            $id = Auth::user()->getAuthIdentifier();
+            $id = $this->userRepository->getAuthUserId();
+
+            // взять все записи конкретного пользователя
             $userRequests = TableRequest::all()->where('user_id', $id);
 
             return view('main', compact('userRequests'));
@@ -28,19 +40,20 @@ class TableAppController extends Controller
 
     public function store(TableRequestCreateRequest $request)
     {
+        // получение айди юзера
+        $userId = $this->userRepository->getAuthUserId();
+
+        // Сохранение файла и получение пути
         if (isset($request->image)) {
-            $pathFile = $request->file('image')
-                ->store('uploads', 'public');
+            $pathFile = $this->tableRequestsRepository
+                ->saveImageOnStorage($request);
+        } else {
+            $pathFile = null;
         }
 
-        $tableRequest = new TableRequest();
-        $tableRequest->theme = $request->theme;
-        $tableRequest->message = $request->message;
-        if (isset($pathFile)) {
-            $tableRequest->file_name = $pathFile;
-        }
-        $tableRequest->user_id = Auth::user()->getAuthIdentifier();
-        $result = $tableRequest->save();
+        // Сохранение
+        $result = $this->tableRequestsRepository
+            ->storeRequest($request, $userId, $pathFile);
 
         if ($result) {
             return redirect()->route('tableapp.index')
