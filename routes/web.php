@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Route;
 */
 Auth::routes();
 
-Route::get('/', function () {
-    return view('main');
-});
+Route::get('/', 'TableAppController@index')
+    ->name('tableapp.index');
+Route::get('/create', 'TableAppController@create')
+    ->name('tableapp.create');
+Route::put('/create', 'TableAppController@store')
+    ->name('tableapp.store');
