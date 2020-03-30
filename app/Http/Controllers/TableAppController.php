@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TableRequestCreateRequest;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Request as TableRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\TableRequestsRepository;
 use App\Repositories\UserRepository;
+use Illuminate\Support\Facades\DB;
 
 class TableAppController extends Controller
 {
@@ -35,6 +37,23 @@ class TableAppController extends Controller
 
     public function create()
     {
+        $userId = $this->userRepository->getAuthUserId();
+
+        // узнать дату последнего запроса пользователя
+        $lastRequest = $this->tableRequestsRepository->getLastTimeRequest($userId);
+
+        if (isset($lastRequest)) {
+            $currentDate = new Carbon('now', 'Europe/Minsk');
+            
+            $howDiffHours = $this->tableRequestsRepository->getDiffHours($currentDate, $lastRequest);
+
+            if ($howDiffHours < 0) {
+                return view('create');
+            } else {
+                redirect()->back()->send()
+                    ->with(['danger' => 'Отклонена. Следующая заявка через ' . $howDiffHours . ' часов']);
+            }
+        }
         return view('create');
     }
 

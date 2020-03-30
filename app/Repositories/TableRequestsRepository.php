@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Request as TableRequest;
+use Illuminate\Support\Facades\DB;
 
 class TableRequestsRepository
 {
@@ -27,5 +28,23 @@ class TableRequestsRepository
         $result = $tableRequest->save();
 
         return $result;
+    }
+
+    public function getLastTimeRequest($userId)
+    {
+        $lastRequest = DB::table('requests')->select('created_at')
+            ->where('user_id', $userId)
+            ->orderByDesc('created_at')
+            ->first();
+
+        return $lastRequest;
+    }
+
+    public function getDiffHours($date, $lastRequest)
+    {
+        $diffTimes = $date->diffInMinutes($lastRequest->created_at);
+        $howDiffHours = 24 - (ceil($diffTimes / 60));
+
+        return $howDiffHours;
     }
 }

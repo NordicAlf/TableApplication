@@ -19,6 +19,14 @@
                             {{ session()->get('success') }}
                         </div>
                     @endif
+                        @if(session('danger'))
+                            <div class="alert alert-danger" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">x</span>
+                                </button>
+                                {{ session()->get('danger') }}
+                            </div>
+                    @endif
 
                     <a href="{{ route('tableapp.create') }}" type="button" class="btn btn-outline-secondary">Добавить заявку</a>
                 </div>
