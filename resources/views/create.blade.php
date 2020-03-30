@@ -1,9 +1,24 @@
 @extends('layouts.layout')
 
 @section('content')
+
     <form class="form-request" method="POST" action="{{ route('tableapp.store') }}" enctype="multipart/form-data">
         @csrf
         @method('PUT')
+
+        @if($errors->any())
+            <div class="alert alert-danger" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">x</span>
+                </button>
+                <ul>
+                    @foreach($errors->all() as $errorTxt)
+                        <li>{{ $errorTxt }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <div class="form-group">
             <label for="formGroupExampleInput">Тема</label>
             <input type="text" name="theme" class="form-control" id="formGroupExampleInput">

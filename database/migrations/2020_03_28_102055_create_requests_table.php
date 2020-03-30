@@ -20,7 +20,7 @@ class CreateRequestsTable extends Migration
             $table->text('message');
             $table->bigInteger('status')
                 ->default(0);
-            $table->string('file_name');
+            $table->string('file_name')->nullable();
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users');

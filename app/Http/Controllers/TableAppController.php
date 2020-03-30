@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TableRequestCreateRequest;
 use Illuminate\Http\Request;
 use App\Models\Request as TableRequest;
 use Illuminate\Support\Facades\Auth;
@@ -18,15 +19,19 @@ class TableAppController extends Controller
         return view('create');
     }
 
-    public function store(Request $request)
+    public function store(TableRequestCreateRequest $request)
     {
-        $pathFile = $request->file('image')
-            ->store('uploads', 'public');
+        if (isset($request->image)) {
+            $pathFile = $request->file('image')
+                ->store('uploads', 'public');
+        }
 
         $tableRequest = new TableRequest();
         $tableRequest->theme = $request->theme;
         $tableRequest->message = $request->message;
-        $tableRequest->file_name = $pathFile;
+        if (isset($pathFile)) {
+            $tableRequest->file_name = $pathFile;
+        }
         $tableRequest->user_id = Auth::user()->getAuthIdentifier();
         $result = $tableRequest->save();
 
