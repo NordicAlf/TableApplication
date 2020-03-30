@@ -18,8 +18,8 @@ class CreateRequestsTable extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->string('theme', 100);
             $table->text('message');
-            $table->bigInteger('status')
-                ->default(0);
+            $table->string('status')
+                ->default('Ожидание');
             $table->string('file_name')->nullable();
             $table->foreign('user_id')
                 ->references('id')

@@ -32,23 +32,18 @@
                         <th scope="col" width="50px">Закрыть</th>
                     </tr>
                     </thead>
+
                     <tbody>
+                    @foreach($userRequests as $request)
                     <tr>
-                        <th scope="row">Помогите</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
+                        <th scope="row">{{ $request->theme }}</th>
+                        <td>{{ $request->message }}</td>
+                        <td>{{ $request->status }}</td>
                         <td align="center">
                             <button type="button" class="btn btn-outline-danger btn-sm">x</button>
                         </td>
                     </tr>
-                    <tr>
-                        <th scope="row">Помогите</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td align="center">
-                            <button type="button" class="btn btn-outline-danger btn-sm">x</button>
-                        </td>
-                    </tr>
+                    @endforeach
                     </tbody>
                 </table>
             </div>

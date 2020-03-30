@@ -6,11 +6,18 @@ use App\Http\Requests\TableRequestCreateRequest;
 use Illuminate\Http\Request;
 use App\Models\Request as TableRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class TableAppController extends Controller
 {
     public function index()
     {
+        if (Auth::check()) {
+            $id = Auth::user()->getAuthIdentifier();
+            $userRequests = TableRequest::all()->where('user_id', $id);
+
+            return view('main', compact('userRequests'));
+        }
         return view('main');
     }
 
