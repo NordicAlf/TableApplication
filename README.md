@@ -13,6 +13,6 @@ pass: adminmanager
 6) php artisan db:seed
 7) php artusan serve
 
-![Image alt](https://github.com/North-Guard/TableApplication/blob/master/req_user.png)
-![Image alt](https://github.com/North-Guard/TableApplication/blob/master/post_req_user.png)
-![Image alt](https://github.com/North-Guard/TableApplication/blob/master/admin_page.png)
+![Image alt](https://github.com/NordDev/TableApplication/blob/master/req_user.png)
+![Image alt](https://github.com/NordDev/TableApplication/blob/master/post_req_user.png)
+![Image alt](https://github.com/NordDev/TableApplication/blob/master/admin_page.png)
