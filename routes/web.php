@@ -20,3 +20,11 @@ Route::get('/create', 'TableAppController@create')
     ->name('tableapp.create');
 Route::put('/create', 'TableAppController@store')
     ->name('tableapp.store');
+Route::put('/close/{id}', 'TableAppController@close')
+    ->name('tableapp.close');
+
+//Админская часть
+Route::get('/answer{id}/', 'TableAppController@answer')
+    ->name('tableapp.answer');
+Route::put('/answer', 'TableAppController@response')
+    ->name('tableapp.response');

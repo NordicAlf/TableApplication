@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TableRequestCreateRequest;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Request as TableRequest;
@@ -25,13 +26,19 @@ class TableAppController extends Controller
     public function index()
     {
         if (Auth::check()) {
-            $id = $this->userRepository->getAuthUserId();
+            if (Auth::user()->role === 'user') {
+                $id = $this->userRepository->getAuthUserId();
+                // взять все записи конкретного пользователя
+                $userRequests = TableRequest::all()->where('user_id', $id);
 
-            // взять все записи конкретного пользователя
-            $userRequests = TableRequest::all()->where('user_id', $id);
+                return view('main', compact('userRequests'));
+            } elseif (Auth::user()->role === 'admin') {
+                $userRequests = TableRequest::all();
 
-            return view('main', compact('userRequests'));
+                return view('main', compact('userRequests'));
+            }
         }
+
         return view('main');
     }
 
@@ -44,7 +51,7 @@ class TableAppController extends Controller
 
         if (isset($lastRequest)) {
             $currentDate = new Carbon('now', 'Europe/Minsk');
-            
+
             $howDiffHours = $this->tableRequestsRepository->getDiffHours($currentDate, $lastRequest);
 
             if ($howDiffHours < 0) {
@@ -80,5 +87,33 @@ class TableAppController extends Controller
         } else {
             return back()->withErrors(['msg' => 'Ошибка добавления заявки']);
         }
+    }
+
+    public function close($id)
+    {
+        $requestData = TableRequest::find($id);
+        $requestData->status = 'Закрыто';
+
+        //dd($requestData);
+        $requestData->save();
+
+        redirect()->back()->send();
+    }
+    public function answer($id)
+    {
+        $requestData = TableRequest::find($id);
+
+        return view('answer', compact('requestData'));
+    }
+
+    public function response(Request $request)
+    {
+        $requestData = TableRequest::find($request->id);
+
+        $requestData->response = $request->response;
+        $requestData->status = 'Отвечено';
+        $requestData->save();
+
+        redirect()->route('tableapp.index')->send();
     }
 }

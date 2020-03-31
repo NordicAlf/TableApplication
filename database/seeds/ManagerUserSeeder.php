@@ -19,7 +19,7 @@ class ManagerUserSeeder extends Seeder
                 'name' => 'manager',
                 'email'=> 'manager@manager.com',
                 'password' => Hash::make('adminmanager'),
-                'role' => 1,
+                'role' => 'admin',
                 'remember_token' => Str::random(10),
             ]
         ];

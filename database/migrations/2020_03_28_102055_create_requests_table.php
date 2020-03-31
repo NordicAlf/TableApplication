@@ -18,6 +18,7 @@ class CreateRequestsTable extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->string('theme', 100);
             $table->text('message');
+            $table->text('response')->nullable();
             $table->string('status')
                 ->default('Ожидание');
             $table->string('file_name')->nullable();
